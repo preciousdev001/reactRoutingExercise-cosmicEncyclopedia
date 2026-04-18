@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import NavBar from "./components/NavBar";
+import HomePage from "./pages/HomePage";
+import ContentPage from "./pages/ContentPage";
+import NavigateBackButton from "./components/NavigateBackButton.jsx";
+
+import styles from "./App.module.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const data = [
+    {
+      id: "mars",
+      title: "Mars",
+      content:
+        "Known as the Red Planet, Mars has fascinated humans for centuries. It is home to the highest mountain in the solar system, Olympus Mons, and evidence suggests water once flowed on its surface.",
+    },
+    {
+      id: "venus",
+      title: "Venus",
+      content:
+        "Venus, our closest planetary neighbor, is shrouded in thick clouds of sulfuric acid, making it hostile environment. Its surface temperatures are hot enough to melt lead.",
+    },
+    {
+      id: "nebula",
+      title: "Orion Nebula",
+      content:
+        "Located int he constellation of Orion, the Orion Nebula is a vibrant nursery where new stars are born. It is one of the brightest nebulae visible to the naked eye in the night sky.",
+    },
+    {
+      id: "andromeda",
+      title: "Andromeda Galaxy",
+      content:
+        "The Andromeda Galaxy is the closest spiral galaxy to our Milky Way and is on a collison course with it. In about 4 billion years, the two will merge into a single layer galaxy.",
+    },
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className={styles.mainContatiner}>
+      <BrowserRouter>
+        <NavBar data={data} />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          {data.map((dataElement) => (
+            <Route
+              key={dataElement.id}
+              path={`/content/${dataElement.id}`}
+              element={<ContentPage data={dataElement} />}
+            />
+          ))}
+        </Routes>
+        <NavigateBackButton />
+      </BrowserRouter>
+    </div>
+  );
 }
 
-export default App
+export default App;
